@@ -11,7 +11,8 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const secret = process.env.JWT_SECRET || 'secret';
+const secret = process.env.JWT_SECRET || '';
+const expiresIn = process.env.JWT_EXPIRATION || '1d';
 const whitelist = process.env.CORS_WHITELIST?.split(' ') || [];
 const aeroapi = process.env.AEROAPI || '';
 const apikey = process.env.APIKEY || '';
@@ -131,7 +132,7 @@ app.post('/api*', async (req, res) => {
 });
 
 app.get('/generate-token', (req, res) => {
-  const token = jwt.sign({}, secret, { expiresIn: '1d' });
+  const token = jwt.sign({}, secret, { expiresIn });
   res.json({ token });
 });
 
